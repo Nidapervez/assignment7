@@ -143,3 +143,91 @@ Har agent apne kaam mein expert hota hai
 Bada problem, chhote pieces mein solve hota hai
 
 Easy to scale — naye agents add karo, system smarter banega
+🛠️ Installation Steps
+Packages install karo:
+Notebook mein ye line run karo:
+
+python
+Copy
+Edit
+!pip install -Uq openai-agents "openai-agents[litellm]"
+Async ka support enable karo:
+Notebook async function handle kar sake is liye ye likho:
+
+python
+Copy
+Edit
+import nest_asyncio
+nest_asyncio.apply()
+Google Colab mein API key save karo:
+
+python
+Copy
+Edit
+from google.colab import userdata
+GEMINI_API_KEY = userdata.get("GEMINI_API_KEY")
+📒 Notebook Ka Overview (03_Litellm_agent_sdk.ipynb)
+Notebook mein ye steps hain:
+
+openai-agents aur litellm install karna
+
+nest_asyncio se async enable karna
+
+Google Gemini ko LiteLLM ke zariye agent mein use karna
+
+Ek function tool banana jo weather bataye
+
+Agent se haiku style mein jawab lena
+
+🧠 Important Code Example (Samjhay gaya)
+python
+Copy
+Edit
+from agents import Agent, Runner, function_tool
+from agents.extensions.models.litellm_model import LitellmModel
+
+MODEL = 'gemini/gemini-2.0-flash'
+
+@function_tool
+def get_weather(city: str) -> str:
+    print(f"[debug] getting weather for {city}")
+    return f"The weather in {city} is sunny."
+
+agent = Agent(
+    name="Assistant",
+    instructions="You only respond in haikus.",
+    model=LitellmModel(model=MODEL, api_key=GEMINI_API_KEY),
+)
+
+result = Runner.run_sync(agent, "What's the weather in Tokyo?")
+print(result.final_output)
+✅ Expected Output Example
+Agar tum agent se pucho:
+
+"What's the weather in Tokyo?"
+
+To jawab ho sakta hai kuch is tarah:
+
+arduino
+Copy
+Edit
+Skies now partly clear,  
+Seventy degrees in Tokyo,  
+Gentle breeze abounds.
+(Yaani poora haiku form mein!)
+
+📌 Kaise Chalana Hai (Usage Guide)
+Jupyter ya Colab mein 03_Litellm_agent_sdk.ipynb notebook kholo
+
+Apna Gemini API key set karo
+
+Saare cells ko ek ke baad ek run karo
+
+"MODEL" aur user query change karke alag Gemini versions ya sawalat try karo
+
+⚠️ Important Notes
+get_weather() function filhaal fake data de raha hai. Production mein use replace kar do real API se jaise OpenWeatherMap.
+
+Tracing off rakha gaya hai taake output clean ho. Debug ke liye tracing on bhi kar sakti ho.
+
+API key ko kabhi bhi code mein hardcode mat karo – safe jagah store karo.
