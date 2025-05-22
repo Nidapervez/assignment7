@@ -289,6 +289,111 @@ Agar tum OpenRouter se Gemini access karna chah rahi ho, toh tum OpenrouterModel
 Agar tum LiteLLM se Gemini access karna chah rahi ho, toh LitellmModel use karo.
 
 Dono different tareeqe hain, end goal same hai — Gemini ya koi aur model run karwana agent ke through.
+🌟 Pehle Basic Samjho:
+Ye SDK default to OpenAI GPT models ke liye bana hai.
+Lekin agar tum chaho to Google Gemini jaise models bhi chala sakti ho — OpenAI-compatible API format ke zariye.
+
+Toh hum Gemini ko aise treat karte hain jaise wo ek OpenAI model ho — bas base URL aur API key alag hoti hai.
+
+📁 Pehle .env File Banao
+Ek .env file banao jisme ye likho:
+
+ini
+Copy
+Edit
+GEMINI_API_KEY=your_key_here
+🚀 Project Setup Steps
+bash
+Copy
+Edit
+uv init hello_agent     # new project banao
+cd hello_agent          # us folder mein jao
+uv add openai-agents python-dotenv  # dependencies install karo
+uv run main.py          # code run karo
+✅ 3 Tareeqay hain Gemini ko use karne ke liye:
+1️⃣ Agent Level Configuration (Sirf ek agent ke liye Gemini lagana)
+Isme sirf ek agent ko Gemini se connect kiya jata hai:
+
+python
+Copy
+Edit
+from openai import AsyncOpenAI
+from agents import Agent, OpenAIChatCompletionsModel, Runner
+
+client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+agent = Agent(
+    name="Assistant",
+    instructions="Tum sirf haiku mein reply karti ho.",
+    model=OpenAIChatCompletionsModel(model="gemini-2.0-flash", openai_client=client),
+)
+
+# Run karna
+result = await Runner.run(agent, "Recursion kya hoti hai?")
+print(result.final_output)
+📌 Sirf is agent mein Gemini use ho rahi hai.
+
+2️⃣ Run Level Configuration (Run time pe Gemini lagana)
+Isme agent toh normal hota hai, lekin run karte waqt Gemini config di jaati hai:
+
+python
+Copy
+Edit
+from agents.run import RunConfig
+
+client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+model = OpenAIChatCompletionsModel(
+    model="gemini-2.0-flash",
+    openai_client=client
+)
+
+config = RunConfig(
+    model=model,
+    model_provider=client,
+    tracing_disabled=True
+)
+
+agent = Agent(name="Assistant", instructions="Tum ek madadgar ho.")
+
+result = Runner.run_sync(agent, "Hello, how are you?", run_config=config)
+print(result.final_output)
+📌 RunConfig ke zariye Gemini set ho raha hai — agent independent hai.
+
+3️⃣ Global Configuration (Har agent aur run ke liye Gemini by default)
+Isme tum ek baar Gemini client set karti ho — baad mein sab jaga wahi use hota hai:
+
+python
+Copy
+Edit
+from agents import set_default_openai_client, set_default_openai_api
+
+client = AsyncOpenAI(
+    api_key=gemini_api_key,
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+)
+
+set_default_openai_api("chat_completions")
+set_default_openai_client(client)
+
+agent = Agent(name="Assistant", instructions="Tum madad karti ho.", model="gemini-2.0-flash")
+
+result = Runner.run_sync(agent, "Hello")
+print(result.final_output)
+📌 Sab agents, sab runs Gemini use karenge jab tak tum manually change na karo.
+
+🤔 Kya Tumhein Konsa Use Karna Chahiye?
+Scenario	Tareeqa
+Sirf ek agent Gemini pe ho	            Agent-level
+Run time pe config change karni ho	    Run-level
+Har jaga Gemini chahiye ho	            Global-level
+
 
 
 
