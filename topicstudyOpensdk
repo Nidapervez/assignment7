@@ -395,6 +395,70 @@ Run time pe config change karni ho	    Run-level
 Har jaga Gemini chahiye ho	            Global-level
 
 
+ Ab samjho: Tum kya confuse ho?
+Tumhara Sawal:
+"Agent-level, Run-level, Global-level ka kya matlab hai?"
+
+Main in teeno ko school classroom ke example se samjhaata hoon:
+
+🎯 1️⃣ Agent-Level (Sirf ek student ko alag teacher diya)
+Matlab:
+
+Sirf ek agent ko tum custom model (Gemini ya OpenRouter) se connect karti ho.
+
+Baaki agents default (OpenAI) se connected rehte hain.
+
+🧠 Use kab karein? Jab sirf ek agent pe Gemini test karna ho.
+
+🎯 2️⃣ Run-Level (Same student ko har test pe alag teacher mile)
+Matlab:
+
+Agent toh normal hi rehta hai.
+
+Lekin jab tum run karti ho, us waqt tum model aur API config deti ho (Gemini, OpenRouter, etc.)
+
+🧠 Use kab karein? Jab har bar alag model try karna ho without changing agent code.
+
+🎯 3️⃣ Global-Level (Pura school ka teacher hi change kar diya)
+Matlab:
+
+Ek hi baar tum keh do ke “ab se sab agents ko Gemini ya OpenRouter use karna hai.”
+
+Har agent, har run, sab wahi model use karenge.
+
+🧠 Use kab karein? Jab tumhara pura app Gemini ya OpenRouter pe chalana ho.
+
+🔀 Ab doosra confusion:
+LiteLLM kya hai? OpenRouter kya hai? Gemini kya hai?
+Name	Kya Hai?	Kis kaam aata hai?
+OpenRouter	Ek LLM Gateway hai	Ye tumhe multiple models (GPT-4, Claude, Mistral, Gemini) ka access deta hai ek hi API se
+LiteLLM	Ek translation layer hai	Ye tumhare app ko enable karta hai ke har model ka same API format use kare
+Gemini	Google ka model hai	Iska OpenAI-compatible API bhi available hai, jise Agents SDK ke sath use kiya ja sakta hai
+
+✅ Tumne ab tak kya use kiya SDK mein?
+Tumne "openai-agents" SDK use kiya.
+
+Agar tumne OpenAIChatCompletionsModel() mein client diya jisme base_url Gemini ya OpenRouter ka tha — to tum Gemini ya OpenRouter use kar rahi ho.
+
+LiteLLM bhi use kiya ja sakta hai usi style mein.
+
+🤖 Summary — Easy Words Mein
+Tum Agents SDK use kar rahi ho.
+
+Is SDK mein tum different models laga sakti ho (OpenAI default hota hai).
+
+Tum Gemini ya OpenRouter use karne ke liye 3 levels pe model set kar sakti ho:
+
+Agent-level = Sirf usi agent ke liye model change
+
+Run-level = Run karte waqt model change
+
+Global-level = Har jagah pe wahi model lage
+
+Agar tum bolo to:
+✅ Mae ek sample bana ke tumhe de sakta hoon jisme tum Gemini ya OpenRouter ko test kar sako openai-agents SDK ke sath.
+
+
 
 
 
