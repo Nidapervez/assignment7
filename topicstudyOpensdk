@@ -231,3 +231,70 @@ get_weather() function filhaal fake data de raha hai. Production mein use replac
 Tracing off rakha gaya hai taake output clean ho. Debug ke liye tracing on bhi kar sakti ho.
 
 API key ko kabhi bhi code mein hardcode mat karo – safe jagah store karo.
+
+
+🔄 OpenRouter vs LiteLLM vs openai-agents SDK — Kya Faraq Hai?
+🔸 1. OpenRouter:
+Ye ek gateway (yaani rasta) hai jiske through tum kai LLM providers ko access kar sakti ho (jaise OpenAI, Google Gemini, Mistral, Claude, etc.) ek hi API ke zariye.
+
+🔹 Use case: Jab tum chah rahi ho ke ek hi jaga se multiple models access karo (multi-model routing).
+
+🔸 Example:
+
+ts
+Copy
+Edit
+model: "openrouter/google/gemini-pro"
+🔸 2. LiteLLM:
+Ye ek Python library hai jo tumhein multiple LLMs ko ek common interface se use karne ka tareeqa deti hai — lekin local Python environment mein.
+
+🔹 Use case: Jab tum chah rahi ho ke Python code mein directly different models try karo — without worrying ke API ka format kya hai.
+
+🔸 Example:
+
+python
+Copy
+Edit
+model = LitellmModel(model="gemini/gemini-2.0-flash", api_key=GEMINI_API_KEY)
+🔸 3. openai-agents SDK:
+Ye ek AI Agent banane ka framework hai jo tumhein kuch tools deta hai:
+
+Agents create karne ke liye
+
+Tools integrate karne ke liye (jaise get_weather)
+
+Multiple model backends use karne ke liye, via extensions (jaise Litellm)
+
+🔁 Toh ab sawal: "OpenRouter aur LiteLLM dono agent SDK mein use hotay hain?"
+✅ Jee haan, Agent SDK in dono ko use kar sakta hai — bas extension change hoti hai:
+👉 Agar tum:
+
+from agents.extensions.models.litellm_model import LitellmModel
+use kar rahi ho, toh tum LiteLLM ke through model access kar rahi ho.
+
+👉 Aur agar tum:
+
+from agents.extensions.models.openrouter_model import OpenrouterModel
+use karti ho, toh tum OpenRouter ke through LLM use kar rahi ho.
+
+🎯 Summary in 1 Line:
+Tool	Kya Hai	Kab Use Hota Hai?
+OpenRouter	Multi-model API Gateway	Jab tum web-based multi-model support chah rahi ho
+LiteLLM	Local Python abstraction	Jab tum local Python code mein LLMs access karna chah rahi ho
+openai-agents SDK	Agent banane ka framework	Iske andar tum OpenRouter ya LiteLLM dono ko backend ke tor pe use kar sakti ho
+
+💡 Tum kya kar sakti ho?
+Agar tum OpenRouter se Gemini access karna chah rahi ho, toh tum OpenrouterModel use karo.
+
+Agar tum LiteLLM se Gemini access karna chah rahi ho, toh LitellmModel use karo.
+
+Dono different tareeqe hain, end goal same hai — Gemini ya koi aur model run karwana agent ke through.
+
+
+
+
+
+
+
+
+
