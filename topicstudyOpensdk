@@ -27,7 +27,56 @@ Agents SDK = Uska advanced version for real-world use.
 Dono ka maksad: Multi-agent AI systems ko smartly manage karna.
 🔁 1. Swarm AI – Teamwork Jaisa AI
 Socho tumhara ek call center hai jahan har agent kisi ek specific kaam mein expert hai:
+🔍 OpenRouter: 50 Free LLMs ka Ek Interface
+OpenRouter ek aisa platform hai jahan se tum 50 se zyada AI models (LLMs) free mein access kar sakti ho. Ye platform Google, OpenAI, Anthropic, Mistral, LLaMA jese providers ke models ko ek hi jagah per access karne ki suhulat deta hai.
 
+Ye saare models mostly OpenAI Chat Completion API jese standard ko follow karte hain, isliye agar tumne pehle OpenAI ka SDK use kiya hai to sirf API key aur URL badal kar OpenRouter ke sath kaam kar sakti ho.
+
+💡 Google Gemini 2.0 Flash vs OpenRouter Free Models
+Feature	Google Gemini 2.0 Flash	OpenRouter Free Models
+Requests Per Day (RPD)	1500	200
+Requests Per Minute (RPM)	15 (Flash) / 30 (Lite)	20
+Tokens Per Minute (TPM)	1,000,000	Depends
+Compatible with OpenAI API?	✅	✅
+
+👉 Toh development aur testing ke liye Google Gemini ka free tier zyada behtar hai kyunki usme zyada requests allow hoti hain. OpenRouter ko backup ke tor per use karo jab tumhe aur models test karne ho.
+
+🧠 OpenRouter Kya Hai?
+OpenRouter ek proxy hai – iska matlab ye khud model host nahi karta, balke tumhare requests ko third-party providers tak bhejta hai (jaise Together AI, AWS, Fireworks waghera). Isse tum easily 200+ models use kar sakti ho bina alag alag API keys manage kiye.
+
+🛠️ Function Calling Support
+OpenRouter function calling (yaani tool calling) support karta hai – matlab tum AI ko keh sakti ho ke external tools (jaise weather API) ka use kare user input ke basis per. Ye system OpenAI ke function calling jaise hi kaam karta hai.
+
+🧪 Developer Friendly Features
+Chatroom: Direct LLMs ke sath interact karne ke liye
+
+Token aur Cost Monitoring
+
+Streaming Support
+
+OpenAI SDK Compatibility
+
+Playground for testing
+
+Prompt Logging (optional)
+
+📊 Free Models ka Overview (March 2025)
+OpenRouter ke paas 50 free models hain
+
+Inmein se 6 models aise hain jinka context window 1 million tokens se zyada hai
+
+Free models ka rate limit: 200 RPD aur 20 RPM
+
+🔗 Useful Links:
+🔹 OpenRouter Website
+
+🔹 DeepSeek V3 Model (Free)
+
+🔹 Google Gemini Chat API + OpenAI Compatibility
+
+🔹 Function Calling Docs
+
+🔹 Panaverse Code Example
 Agent A: Sirf billing issues solve karta hai
 
 Agent B: Sirf technical problems handle karta hai
